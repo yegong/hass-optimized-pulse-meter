@@ -1,0 +1,23 @@
+hass-optimized-pulse-meter
+
+This project contains code derived from ESPHome's pulse_meter component.
+
+ESPHome license summary, as stated by the ESPHome project:
+- C++/runtime code (.c, .cpp, .h, .hpp, .tcc, .ino): GPLv3
+- Python code and other parts: MIT
+
+Original project:
+  ESPHome
+  https://github.com/esphome/esphome
+
+Derived component:
+  esphome/components/pulse_meter
+
+Modifications in this repository include:
+- Renaming the component to optimized_pulse_meter.
+- Adding flow_lambda for frequency-to-value conversion.
+- Adding volume_lambda for per-pulse volume accumulation.
+- Adding max_time_delta clamping for per-pulse interval handling.
+- Clamping negative, NaN, and infinite lambda outputs to zero.
+
+No warranty is provided. Validate measurements against known references before relying on them.

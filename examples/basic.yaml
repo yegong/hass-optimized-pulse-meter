@@ -1,0 +1,40 @@
+# Minimal ESPHome example for optimized_pulse_meter.
+# Replace GPIO6 and calibration lambdas for your own hardware.
+
+external_components:
+  - source: github://YOUR_GITHUB_USERNAME/hass-optimized-pulse-meter@main
+    components:
+      - optimized_pulse_meter
+
+sensor:
+  - platform: optimized_pulse_meter
+    id: main_flow
+    name: "Main Flow Rate"
+    pin:
+      number: GPIO6
+      mode:
+        input: true
+        pullup: false
+        pulldown: false
+    internal_filter: 1ms
+    timeout: 10s
+    max_time_delta: 500ms
+    unit_of_measurement: "m³/h"
+    device_class: volume_flow_rate
+    state_class: measurement
+    accuracy_decimals: 4
+    flow_lambda: |-
+      // x = frequency_hz
+      // Example: F = 5Q - 3, Q in L/min.
+      const float q_l_min = (x + 3.0f) / 5.0f;
+      return q_l_min * 0.06f;  // m³/h
+    volume_lambda: |-
+      // x = time_delta_s for one pulse.
+      return (1.0f + 3.0f * x) / (5.0f * 60000.0f);  // m³
+    total:
+      id: main_water_total
+      name: "Main Water Total"
+      unit_of_measurement: "m³"
+      device_class: water
+      state_class: total_increasing
+      accuracy_decimals: 5

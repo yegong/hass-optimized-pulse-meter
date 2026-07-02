@@ -1,0 +1,8 @@
+.esphome/
+*.log
+*.bin
+*.elf
+*.factory.bin
+__pycache__/
+.pytest_cache/
+.DS_Store
